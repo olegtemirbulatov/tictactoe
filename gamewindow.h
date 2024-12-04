@@ -9,12 +9,14 @@
 #include <QVector>
 #include <QString>
 
+#include "uigame.h"
+
 class GameWindow : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit GameWindow(int _dim, const QVector<QString> *_gamers, QWidget *parent = 0);
+    explicit GameWindow(UIGame *game, QWidget *parent = 0);
     ~GameWindow();
 
 private slots:
@@ -25,9 +27,8 @@ private slots:
 private:
     void clearActiveButtons();
 
-    int dim;
+    UIGame *game;
     QPushButton *lastClickedFieldButton;
-    QVector<QString> *gamers;
     QLabel *gamerLabel;
     QLabel *gamerName;
     QHBoxLayout *hlayout1;

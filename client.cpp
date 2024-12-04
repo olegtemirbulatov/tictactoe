@@ -1,26 +1,28 @@
 // при доработке UI нужно дорабатывать по большей части этот файл
-// #include <iostream>
-// #include <string>
-// #include <vector>
-// #include <optional>
-// #include <utility>
-// #include <memory>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <optional>
+#include <utility>
+#include <memory>
 #include "mainwindow.h"
 #include <QApplication>
 
 
-// #include "board.h"
-// #include "player.h"
-// #include "game.h"
+#include "board.h"
+#include "player.h"
+#include "game.h"
 
-// #include "gamemanager.h"
+#include "gamemanager.h"
 
 
 int main(int argc, char* argv[])
 {
+    GameManager gameManager;
+    // std::unique_ptr<IGame> game;
+    // game.reset(gameManager.createGame("UI_game"));
     QApplication a(argc, argv);
-    MainWindow w;
+    MainWindow w(gameManager);
     w.show();
-
     return a.exec();
 }

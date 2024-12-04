@@ -6,6 +6,8 @@
 #include <QVector>
 #include <QString>
 #include "gamewindow.h"
+#include "gamemanager.h"
+#include "uigame.h"
 
 bool check_name(QString name);
 
@@ -22,7 +24,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(GameManager *gameManager, QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -31,7 +33,9 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
+    GameManager *gameManager;
     Ui::MainWindow *ui;
     QVector<QString> *gamers = nullptr;
+    std::unique_ptr<IGame> game;
     GameWindow *gameWindow;
 };

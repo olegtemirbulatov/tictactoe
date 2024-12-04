@@ -41,6 +41,11 @@ public:
         return false;
     }
 
+    virtual std::size_t getDimension()
+    {
+        return N;
+    }
+
 private:
     PositionType m_size = {N, N};
     Mark m_marks[N][N] = {IBoard::MARK_EMPTY};

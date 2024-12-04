@@ -1,10 +1,14 @@
 #include "gamewindow.h"
+#include "board.h"
 #include <QMessageBox>
 
-GameWindow::GameWindow(int _dim, const QVector<QString> *_gamers, QWidget *parent) :
+GameWindow::GameWindow(UIGame *game, QWidget *parent) :
     QDialog(parent), dim(_dim), lastClickedFieldButton(nullptr)
 {
-    gamers = new QVector<QString>(*_gamers);
+    gamers = new QVector<QString> {
+        game->getPlayer(0),
+        game->getPlayer(1)
+    };
 
     gamerLabel = new QLabel("Ход игрока: ");
     gamerName = new QLabel(gamers->at(0));
@@ -19,6 +23,7 @@ GameWindow::GameWindow(int _dim, const QVector<QString> *_gamers, QWidget *paren
     hlayout2->addWidget(turnNumber);
 
     field = new QGridLayout();
+    int dim = game->getDimension();
     for (int i = 0; i < dim; ++i)
     {
         for (int j = 0; j < dim; ++j)
@@ -108,6 +113,32 @@ void GameWindow::push_turnButton()
     {
         lastClickedFieldButton->setEnabled(false);
         lastClickedFieldButton = nullptr;
+    }
+
+    int index = field->indexOf(lastClickedFieldButton);
+    int x, y, _;
+    field->getItemPosition(index, &x, &y, &_, &_);
+    IBoard::PositionType pos{x, y};
+    IBoard::Mark mark;
+    auto currentMark = m_board->getMark(pos);
+    if (currentMark == IBoard::MARK_EMPTY)
+    {
+        if (gamerName->text() == gamers->at(0)) mark = IBoard::MARK_X;
+        else mark = IBoard::MARK_O;
+        game->setMark(pos, mark);
+    }
+
+    if (game->ifPlayerWin())
+    {
+        QMessageBox msgBox = QMessageBox(QMessageBox::Information,
+                                         "Конец игры",
+                                         "Игрок" + gamerName->text() + " победил!",
+                                         QMessageBox::Ok);
+        int ret = msgBox.exec();
+        if(ret == QMessageBox::Ok)
+        {
+            this->deleteLater();
+        }
     }
 
     QString next_gamer;

@@ -37,4 +37,6 @@ public:
     { 
         return false; 
     }
+
+    virtual std::size_t getDimension() = 0;
 };

@@ -8,5 +8,5 @@ public:
     GameManager() = default;
     ~GameManager() = default;
 
-    IGame* createGame(const std::string &name) const;
+    IGame* createGame(const std::string &name, int dim) const;
 };

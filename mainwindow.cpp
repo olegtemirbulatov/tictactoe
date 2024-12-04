@@ -29,7 +29,8 @@ bool check_number(QString num)
     return true;
 }
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(GameManager *_gameManager, QWidget *parent) :
+    QMainWindow(parent), gameManager(_gameManager), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 }
@@ -90,11 +91,13 @@ void MainWindow::on_pushButton_2_clicked()
         gamers->push_back(std::move(ui->firstPlayerName->text()));
         gamers->push_back(std::move(ui->secondPlayerName->text()));
 
-        gameWindow = new GameWindow(ui->dimention->text().toInt(),
-                                    gamers,
-                                    this);
-        gameWindow->setModal(true);
-        gameWindow->exec();
-        // запуск логики игры
+        game.reset(gameManager->createGame("UI_game", ui->dimention->text().toInt()));
+        if (game->waitForPlayers(gamers))
+        {
+            gameWindow = new GameWindow(game, this);
+            gameWindow->setModal(true);
+            gameWindow->exec();
+        }
+        // else -> error message
     }
 }
