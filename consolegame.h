@@ -18,8 +18,8 @@ public:
 
     virtual std::string name() const override { return m_name; }
     virtual bool setup(IBoard* board) override;
-    virtual bool waitForPlayers( /*uint64_t timeout*/ ) override;
-    virtual int exec(/* add parameters */) override;
+    virtual bool waitForPlayers( /*uint64_t timeout*/ );
+    virtual int exec(/* add parameters */);
 
 protected:
     void renderBoard() const;

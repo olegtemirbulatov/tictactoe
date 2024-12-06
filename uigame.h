@@ -13,17 +13,16 @@
 class UIGame : public IGame
 {
 public:
-    UIGame(IBoard *board) = default;
     UIGame(IBoard *board);
     ~UIGame() = default;
 
     virtual bool setup(IBoard* board) override;
-    virtual bool waitForPlayers(QVector<QString> *gamersList) override {}
-    virtual int exec(/* add parameters */) override {}
-    bool ifPlayerWin();
-    QString getPlayer(int playerNum);
-    std::size_t getDimension();
-    bool setMark(const IBoard::PositionType &pos, const IBoard::Mark &mark);
+    virtual bool waitForPlayers(QVector<QString> *gamersList) override;
+    virtual int exec(/* add parameters */) override { return 0; }
+    virtual bool ifPlayerWin() override;
+    virtual QString getPlayer(int playerNum) override;
+    virtual std::size_t getDimension() override;
+    virtual bool setMark(const IBoard::PositionType &pos, const IBoard::Mark &mark) override;
 
 private:
     std::unique_ptr<IBoard> m_board;

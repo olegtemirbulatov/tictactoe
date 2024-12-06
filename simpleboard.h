@@ -3,15 +3,21 @@
 #include <utility>
 #include <exception>
 #include <stdexcept>
+#include <vector>
 
 #include "board.h"
 
 
-template <std::size_t N>
 class SimpleBoard : public IBoard
 {
 public:
     SimpleBoard() = default;
+    SimpleBoard(std::size_t N)
+    {
+        m_size = {N, N};
+        m_marks = std::vector<std::vector<Mark>>(N, std::vector<Mark>(N, IBoard::MARK_EMPTY));
+    }
+
     ~SimpleBoard() = default;
 
     virtual std::pair<PositionType, PositionType> dimension() const override
@@ -43,10 +49,10 @@ public:
 
     virtual std::size_t getDimension()
     {
-        return N;
+        return (std::size_t)m_size.x;
     }
 
 private:
-    PositionType m_size = {N, N};
-    Mark m_marks[N][N] = {IBoard::MARK_EMPTY};
+    PositionType m_size;
+    std::vector<std::vector<Mark>> m_marks;
 };

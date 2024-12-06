@@ -35,7 +35,5 @@ private slots:
 private:
     GameManager *gameManager;
     Ui::MainWindow *ui;
-    QVector<QString> *gamers = nullptr;
-    std::unique_ptr<IGame> game;
-    GameWindow *gameWindow;
+    QVector<QString> *gamers = new QVector<QString>();
 };

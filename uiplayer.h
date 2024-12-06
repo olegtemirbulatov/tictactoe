@@ -6,11 +6,12 @@
 class UIPlayer : public IPlayer
 {
 public:
-    UIPlayer() = default;
+    UIPlayer();
     UIPlayer(const QString &name) : m_name(name) {}
     ~UIPlayer() = default;
 
     virtual QString name() const override;
+    virtual std::optional<IBoard::PositionType> getMove() const {}
 
 private:
     QString m_name;

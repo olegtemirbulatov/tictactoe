@@ -2,13 +2,15 @@
 #include "board.h"
 #include <QMessageBox>
 
-GameWindow::GameWindow(UIGame *game, QWidget *parent) :
-    QDialog(parent), dim(_dim), lastClickedFieldButton(nullptr)
+GameWindow::GameWindow(IGame *_game, QWidget *parent) :
+    QDialog(parent), game(_game)
 {
-    gamers = new QVector<QString> {
-        game->getPlayer(0),
-        game->getPlayer(1)
-    };
+    // game.reset(_game);
+    // game = std::make_unique<IGame>(_game);
+
+    gamers = new QVector<QString>();
+    gamers->append(game->getPlayer(0));
+    gamers->append(game->getPlayer(1));
 
     gamerLabel = new QLabel("Ход игрока: ");
     gamerName = new QLabel(gamers->at(0));
@@ -50,14 +52,13 @@ GameWindow::GameWindow(UIGame *game, QWidget *parent) :
     vlayout->addLayout(field);
     vlayout->addLayout(hlayout3);
     setLayout(vlayout);
-
-    this->show();
 }
 
 GameWindow::~GameWindow() {}
 
 void GameWindow::clearActiveButtons()
 {
+    int dim = game->getDimension();
     for (int i = 0; i < dim; ++i)
     {
         for (int j = 0; j < dim; ++j)
@@ -109,24 +110,17 @@ void GameWindow::push_exitButton()
 
 void GameWindow::push_turnButton()
 {
-    if (lastClickedFieldButton)
-    {
-        lastClickedFieldButton->setEnabled(false);
-        lastClickedFieldButton = nullptr;
-    }
+    if (!lastClickedFieldButton)
+        return;
 
     int index = field->indexOf(lastClickedFieldButton);
     int x, y, _;
     field->getItemPosition(index, &x, &y, &_, &_);
     IBoard::PositionType pos{x, y};
     IBoard::Mark mark;
-    auto currentMark = m_board->getMark(pos);
-    if (currentMark == IBoard::MARK_EMPTY)
-    {
-        if (gamerName->text() == gamers->at(0)) mark = IBoard::MARK_X;
-        else mark = IBoard::MARK_O;
-        game->setMark(pos, mark);
-    }
+    if (gamerName->text() == gamers->at(0)) mark = IBoard::MARK_X;
+    else mark = IBoard::MARK_O;
+    game->setMark(pos, mark);
 
     if (game->ifPlayerWin())
     {
@@ -137,9 +131,15 @@ void GameWindow::push_turnButton()
         int ret = msgBox.exec();
         if(ret == QMessageBox::Ok)
         {
+            delete game;
             this->deleteLater();
+            // parent->show();
+            return;
         }
     }
+
+    lastClickedFieldButton->setEnabled(false);
+    lastClickedFieldButton = nullptr;
 
     QString next_gamer;
     if (gamerName->text() == gamers->at(0))

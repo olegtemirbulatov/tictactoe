@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QVector>
 #include <QString>
+#include <memory>
 
 #include "uigame.h"
 
@@ -16,7 +17,7 @@ class GameWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit GameWindow(UIGame *game, QWidget *parent = 0);
+    explicit GameWindow(IGame *game, QWidget *parent = 0);
     ~GameWindow();
 
 private slots:
@@ -27,8 +28,10 @@ private slots:
 private:
     void clearActiveButtons();
 
-    UIGame *game;
-    QPushButton *lastClickedFieldButton;
+    // std::unique_ptr<IGame> game;
+    IGame *game;
+    QVector<QString> *gamers;
+    QPushButton *lastClickedFieldButton = nullptr;
     QLabel *gamerLabel;
     QLabel *gamerName;
     QHBoxLayout *hlayout1;

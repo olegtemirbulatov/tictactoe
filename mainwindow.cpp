@@ -37,10 +37,8 @@ MainWindow::MainWindow(GameManager *_gameManager, QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    if (gameWindow)
-        gameWindow->deleteLater();
-    if (gamers)
-        delete gamers;
+    // if (gameWindow)
+    //     gameWindow->deleteLater();
     delete ui;
 }
 
@@ -86,18 +84,20 @@ void MainWindow::on_pushButton_2_clicked()
     else
     {
         if (gamers)
-            delete gamers;
-        gamers = new QVector<QString>();
+            gamers->clear();
         gamers->push_back(std::move(ui->firstPlayerName->text()));
         gamers->push_back(std::move(ui->secondPlayerName->text()));
 
-        game.reset(gameManager->createGame("UI_game", ui->dimention->text().toInt()));
+        IGame *game = gameManager->createGame("UI_game", ui->dimention->text().toInt());
         if (game->waitForPlayers(gamers))
         {
-            gameWindow = new GameWindow(game, this);
+            GameWindow *gameWindow = new GameWindow(game, this);
             gameWindow->setModal(true);
             gameWindow->exec();
         }
-        // else -> error message
+        else
+        {
+            delete game;
+        }
     }
 }

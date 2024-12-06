@@ -19,10 +19,8 @@
 int main(int argc, char* argv[])
 {
     GameManager gameManager;
-    // std::unique_ptr<IGame> game;
-    // game.reset(gameManager.createGame("UI_game"));
     QApplication a(argc, argv);
-    MainWindow w(gameManager);
+    MainWindow w(&gameManager);
     w.show();
     return a.exec();
 }

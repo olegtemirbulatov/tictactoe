@@ -1,6 +1,7 @@
 #include "uigame.h"
 #include "ui_mainwindow.h"
 #include "uiplayer.h"
+#include <algorithm>
 
 UIGame::UIGame(IBoard* board)
 {
@@ -33,28 +34,20 @@ bool UIGame::ifPlayerWin()
         auto currentMark = m_board->getMark(pos);
         marks[x] = currentMark;
     }
-    if (std::adjacent_find(marks.begin(),
-                           marks.end(),
-                           std::not_equal_to<IBoard::Mark>(IBoard::Mark::MARK_EMPTY)) == marks.end())
+    if (std::equal(marks.begin()+1, marks.end(), marks.begin()) && marks[0] != IBoard::Mark::MARK_EMPTY)
         return true;
-    // if (marks[0] == marks[1] && marks[1] == marks[2] && marks[0] != IBoard::Mark::MARK_EMPTY)
-    //     return true;
     marks.clear();
 
     // проверить побочную диагональ
     for (int x = xmin; x < xmax; ++x)
     {
         pos.x = x;
-        pos.y = 2 - x;
+        pos.y = xmax - x - 1;
         auto currentMark = m_board->getMark(pos);
         marks[x] = currentMark;
     }
-    if (std::adjacent_find(marks.begin(),
-                           marks.end(),
-                           std::not_equal_to<IBoard::Mark>(IBoard::Mark::MARK_EMPTY)) == marks.end())
+    if (std::equal(marks.begin()+1, marks.end(), marks.begin()) && marks[0] != IBoard::Mark::MARK_EMPTY)
         return true;
-    // if (marks[0] == marks[1] && marks[1] == marks[2] && marks[0] != IBoard::Mark::MARK_EMPTY)
-    //     return true;
     marks.clear();
 
     // проверить по горизонталям
@@ -67,12 +60,8 @@ bool UIGame::ifPlayerWin()
             auto currentMark = m_board->getMark(pos);
             marks[x] = currentMark;
         }
-        if (std::adjacent_find(marks.begin(),
-                               marks.end(),
-                               std::not_equal_to<IBoard::Mark>(IBoard::Mark::MARK_EMPTY)) == marks.end())
+        if (std::equal(marks.begin()+1, marks.end(), marks.begin()) && marks[0] != IBoard::Mark::MARK_EMPTY)
             return true;
-        // if (marks[0] == marks[1] && marks[1] == marks[2] && marks[0] != IBoard::Mark::MARK_EMPTY)
-        //     return true;
         marks.clear();
     }
 
@@ -86,12 +75,8 @@ bool UIGame::ifPlayerWin()
             auto currentMark = m_board->getMark(pos);
             marks[y] = currentMark;
         }
-        if (std::adjacent_find(marks.begin(),
-                               marks.end(),
-                               std::not_equal_to<IBoard::Mark>(IBoard::Mark::MARK_EMPTY)) == marks.end())
+        if (std::equal(marks.begin()+1, marks.end(), marks.begin()) && marks[0] != IBoard::Mark::MARK_EMPTY)
             return true;
-        // if (marks[0] == marks[1] && marks[1] == marks[2] && marks[0] != IBoard::Mark::MARK_EMPTY)
-        //     return true;
         marks.clear();
     }
 
@@ -104,7 +89,7 @@ bool UIGame::waitForPlayers(QVector<QString> *gamersList)
     {
         for (int i = 0; i < 2; ++i)
         {
-            m_players.emplace_back(new UIPlayer(name));
+            m_players.emplace_back(new UIPlayer(gamersList->at(i)));
         }
         return true;
     }
@@ -124,5 +109,5 @@ std::size_t UIGame::getDimension()
 
 bool UIGame::setMark(const IBoard::PositionType &pos, const IBoard::Mark &mark)
 {
-    m_board->setMark(pos, mark);
+    return m_board->setMark(pos, mark);
 }

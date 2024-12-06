@@ -12,27 +12,27 @@ SOURCES += \
     client.cpp \
     gamewindow.cpp \
     mainwindow.cpp \
-    uigame.cpp \
-    consolegame.cpp \
-    consoleplayer.cpp \
     gamemanager.cpp \
     simpleboard.cpp \
     uigame.cpp \
     uiplayer.cpp
+    # consolegame.cpp \
+    # consoleplayer.cpp \
+
 
 HEADERS += \
     gamewindow.h \
     mainwindow.h \
     uigame.h \
     board.h \
-    consolegame.h \
-    consoleplayer.h \
     game.h \
     gamemanager.h \
     player.h \
     simpleboard.h \
-    uigame.h \
     uiplayer.h
+    # consolegame.h \
+    # consoleplayer.h \
+
 
 FORMS += \
     mainwindow.ui
