@@ -89,12 +89,10 @@ bool UIGame::ifPlayerWin()
 }
 
 bool UIGame::waitForPlayers(const QVector<QString> *gamersList)
-// bool UIGame::waitForPlayers(const QString (&gamersList)[])
 {
     for (int i = 0; i < 2; ++i)
     {
         m_players.emplace_back(new UIPlayer(gamersList->at(i)));
-        // m_players[i] = std::make_unique<UIPlayer>(new UIPlayer(gamersList[i]));
     }
     return true;
 }
