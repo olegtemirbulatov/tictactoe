@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QVector>
 #include <QString>
+#include <QScrollArea>
 #include <memory>
 
 #include "uigame.h"
@@ -28,7 +29,6 @@ private slots:
 private:
     void clearActiveButtons();
 
-    // std::unique_ptr<IGame> game;
     IGame *game;
     QVector<QString> *gamers;
     QPushButton *lastClickedFieldButton = nullptr;
@@ -38,6 +38,7 @@ private:
     QLabel *turnLabel;
     QLabel *turnNumber;
     QHBoxLayout *hlayout2;
+    QScrollArea *scrollarea;
     QGridLayout *field;
     QPushButton *exitButton;
     QPushButton *turnButton;

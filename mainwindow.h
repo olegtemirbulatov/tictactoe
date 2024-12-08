@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QVector>
 #include <QString>
+
 #include "gamewindow.h"
 #include "gamemanager.h"
 #include "uigame.h"
@@ -36,4 +37,5 @@ private:
     GameManager *gameManager;
     Ui::MainWindow *ui;
     QVector<QString> *gamers = new QVector<QString>();
+    // QString gamers[2];
 };

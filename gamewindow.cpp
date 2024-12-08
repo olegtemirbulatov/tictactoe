@@ -1,46 +1,68 @@
+#include <QMessageBox>
+
 #include "gamewindow.h"
 #include "board.h"
-#include <QMessageBox>
+#include "fieldbutton.h"
 
 GameWindow::GameWindow(IGame *_game, QWidget *parent) :
     QDialog(parent), game(_game)
 {
-    // game.reset(_game);
-    // game = std::make_unique<IGame>(_game);
-
-    gamers = new QVector<QString>();
-    gamers->append(game->getPlayer(0));
-    gamers->append(game->getPlayer(1));
+    gamers = new QVector<QString> {
+        game->getPlayer(0),
+        game->getPlayer(1)
+    };
 
     gamerLabel = new QLabel("Ход игрока: ");
+    gamerLabel->setStyleSheet("font-size:15pt;");
     gamerName = new QLabel(gamers->at(0));
+    gamerName->setStyleSheet("font:bold; font-size:15pt;");
     hlayout1 = new QHBoxLayout();
     hlayout1->addWidget(gamerLabel);
     hlayout1->addWidget(gamerName);
 
     turnLabel = new QLabel("Номер хода: ");
+    turnLabel->setStyleSheet("font-size:15pt;");
     turnNumber = new QLabel("1");
+    turnNumber->setStyleSheet("font:bold; font-size:15pt;");
     hlayout2 = new QHBoxLayout();
     hlayout2->addWidget(turnLabel);
     hlayout2->addWidget(turnNumber);
 
+    scrollarea = new QScrollArea();
     field = new QGridLayout();
     int dim = game->getDimension();
     for (int i = 0; i < dim; ++i)
     {
         for (int j = 0; j < dim; ++j)
         {
-            QPushButton *button = new QPushButton(this);
+            FieldButton *button = new FieldButton(this);
             field->addWidget(button, i, j);
-            QObject::connect(button, &QPushButton::clicked, this, GameWindow::push_fieldButton);
+            field->setHorizontalSpacing(0);
+            field->setVerticalSpacing(0);
+            // field->setSpacing(0);
+            QObject::connect(button,
+                             &QPushButton::clicked,
+                             this,
+                             GameWindow::push_fieldButton);
         }
     }
+    QWidget *widget = new QWidget();
+    widget->setLayout(field);
+    scrollarea->setWidget(widget);
 
     exitButton = new QPushButton("Завершить и выйти", this);
+    exitButton->setStyleSheet("font-size:15pt;");
     turnButton = new QPushButton("Сделать ход", this);
+    turnButton->setStyleSheet("font-size:15pt;");
 
-    QObject::connect(exitButton, &QPushButton::clicked, this, GameWindow::push_exitButton);
-    QObject::connect(turnButton, &QPushButton::clicked, this, GameWindow::push_turnButton);
+    QObject::connect(exitButton,
+                     &QPushButton::clicked,
+                     this,
+                     GameWindow::push_exitButton);
+    QObject::connect(turnButton,
+                     &QPushButton::clicked,
+                     this,
+                     GameWindow::push_turnButton);
 
     hlayout3 = new QHBoxLayout();
     hlayout3->addWidget(exitButton);
@@ -49,12 +71,19 @@ GameWindow::GameWindow(IGame *_game, QWidget *parent) :
     vlayout = new QVBoxLayout(this);
     vlayout->addLayout(hlayout1);
     vlayout->addLayout(hlayout2);
-    vlayout->addLayout(field);
+    vlayout->addWidget(scrollarea);
     vlayout->addLayout(hlayout3);
     setLayout(vlayout);
 }
 
-GameWindow::~GameWindow() {}
+GameWindow::~GameWindow()
+{
+    if (game)
+    {
+        delete game;
+        game = nullptr;
+    }
+}
 
 void GameWindow::clearActiveButtons()
 {
@@ -76,7 +105,7 @@ void GameWindow::clearActiveButtons()
 void GameWindow::push_fieldButton()
 {
     GameWindow::clearActiveButtons();
-    QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
+    FieldButton* clickedButton = qobject_cast<FieldButton*>(sender());
     if (clickedButton)
     {
         if (clickedButton->isEnabled())
@@ -116,24 +145,29 @@ void GameWindow::push_turnButton()
     int index = field->indexOf(lastClickedFieldButton);
     int x, y, _;
     field->getItemPosition(index, &x, &y, &_, &_);
-    IBoard::PositionType pos{x, y};
+    IBoard::PositionType pos{
+        (IBoard::PositionType::Dimension) x,
+        (IBoard::PositionType::Dimension) y
+    };
     IBoard::Mark mark;
-    if (gamerName->text() == gamers->at(0)) mark = IBoard::MARK_X;
-    else mark = IBoard::MARK_O;
+    if (gamerName->text() == gamers->at(0))
+        mark = IBoard::MARK_X;
+    else
+        mark = IBoard::MARK_O;
     game->setMark(pos, mark);
 
     if (game->ifPlayerWin())
     {
         QMessageBox msgBox = QMessageBox(QMessageBox::Information,
                                          "Конец игры",
-                                         "Игрок" + gamerName->text() + " победил!",
+                                         "Игрок " + gamerName->text() + " победил!",
                                          QMessageBox::Ok);
         int ret = msgBox.exec();
         if(ret == QMessageBox::Ok)
         {
             delete game;
+            game = nullptr;
             this->deleteLater();
-            // parent->show();
             return;
         }
     }

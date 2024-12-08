@@ -19,7 +19,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -46,89 +45,97 @@ public:
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
-    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(369, 303);
+        MainWindow->resize(493, 383);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
+        centralwidget->setEnabled(true);
         verticalLayoutWidget = new QWidget(centralwidget);
         verticalLayoutWidget->setObjectName("verticalLayoutWidget");
-        verticalLayoutWidget->setGeometry(QRect(10, 10, 351, 101));
+        verticalLayoutWidget->setGeometry(QRect(10, 10, 471, 131));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setSpacing(8);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         groupBox = new QGroupBox(verticalLayoutWidget);
         groupBox->setObjectName("groupBox");
+        QFont font;
+        font.setPointSize(15);
+        groupBox->setFont(font);
         groupBox->setFlat(false);
         groupBox->setCheckable(false);
         label = new QLabel(groupBox);
         label->setObjectName("label");
-        label->setGeometry(QRect(10, 30, 261, 16));
+        label->setGeometry(QRect(10, 40, 451, 21));
         label_2 = new QLabel(groupBox);
         label_2->setObjectName("label_2");
-        label_2->setGeometry(QRect(10, 50, 261, 16));
+        label_2->setGeometry(QRect(10, 60, 451, 31));
+        label_2->setFont(font);
         dimention = new QLineEdit(groupBox);
         dimention->setObjectName("dimention");
-        dimention->setGeometry(QRect(10, 70, 101, 24));
+        dimention->setGeometry(QRect(10, 90, 101, 24));
         dimention->setInputMethodHints(Qt::InputMethodHint::ImhDigitsOnly);
 
         verticalLayout->addWidget(groupBox);
 
         gridLayoutWidget = new QWidget(centralwidget);
         gridLayoutWidget->setObjectName("gridLayoutWidget");
-        gridLayoutWidget->setGeometry(QRect(10, 120, 351, 101));
+        gridLayoutWidget->setGeometry(QRect(10, 150, 471, 171));
         gridLayout = new QGridLayout(gridLayoutWidget);
         gridLayout->setObjectName("gridLayout");
         gridLayout->setContentsMargins(0, 0, 0, 0);
         secondPlayerName = new QLineEdit(gridLayoutWidget);
         secondPlayerName->setObjectName("secondPlayerName");
+        secondPlayerName->setEnabled(true);
+        secondPlayerName->setFont(font);
 
         gridLayout->addWidget(secondPlayerName, 1, 1, 1, 1);
 
         firstPlayerName = new QLineEdit(gridLayoutWidget);
         firstPlayerName->setObjectName("firstPlayerName");
+        firstPlayerName->setFont(font);
 
         gridLayout->addWidget(firstPlayerName, 0, 1, 1, 1);
 
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+        verticalSpacer = new QSpacerItem(20, 30, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
         gridLayout->addItem(verticalSpacer, 2, 0, 1, 1);
 
         label_3 = new QLabel(gridLayoutWidget);
         label_3->setObjectName("label_3");
+        label_3->setFont(font);
 
         gridLayout->addWidget(label_3, 0, 0, 1, 1);
 
         label_4 = new QLabel(gridLayoutWidget);
         label_4->setObjectName("label_4");
+        label_4->setFont(font);
 
         gridLayout->addWidget(label_4, 1, 0, 1, 1);
 
         horizontalLayoutWidget = new QWidget(centralwidget);
         horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
-        horizontalLayoutWidget->setGeometry(QRect(10, 230, 351, 31));
+        horizontalLayoutWidget->setGeometry(QRect(10, 330, 471, 37));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName("horizontalLayout");
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
         pushButton = new QPushButton(horizontalLayoutWidget);
         pushButton->setObjectName("pushButton");
+        pushButton->setFont(font);
 
         horizontalLayout->addWidget(pushButton);
 
         pushButton_2 = new QPushButton(horizontalLayoutWidget);
         pushButton_2->setObjectName("pushButton_2");
+        pushButton_2->setFont(font);
 
         horizontalLayout->addWidget(pushButton_2);
 
         MainWindow->setCentralWidget(centralwidget);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName("statusBar");
-        MainWindow->setStatusBar(statusBar);
 
         retranslateUi(MainWindow);
 

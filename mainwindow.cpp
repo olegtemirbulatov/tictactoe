@@ -1,6 +1,3 @@
-#include "mainwindow.h"
-#include "gamewindow.h"
-#include "ui_mainwindow.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QObject>
@@ -8,6 +5,10 @@
 #include <QDebug>
 #include <QList>
 #include <iostream>
+
+#include "mainwindow.h"
+#include "gamewindow.h"
+#include "ui_mainwindow.h"
 
 bool check_name(QString name)
 {
@@ -33,12 +34,11 @@ MainWindow::MainWindow(GameManager *_gameManager, QWidget *parent) :
     QMainWindow(parent), gameManager(_gameManager), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->dimention->setText("3");
 }
 
 MainWindow::~MainWindow()
 {
-    // if (gameWindow)
-    //     gameWindow->deleteLater();
     delete ui;
 }
 
@@ -92,12 +92,9 @@ void MainWindow::on_pushButton_2_clicked()
         if (game->waitForPlayers(gamers))
         {
             GameWindow *gameWindow = new GameWindow(game, this);
-            gameWindow->setModal(true);
             gameWindow->exec();
         }
         else
-        {
             delete game;
-        }
     }
 }

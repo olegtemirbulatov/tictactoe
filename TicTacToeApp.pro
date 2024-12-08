@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     client.cpp \
+    fieldbutton.cpp \
     gamewindow.cpp \
     mainwindow.cpp \
     gamemanager.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 
 HEADERS += \
+    fieldbutton.h \
     gamewindow.h \
     mainwindow.h \
     uigame.h \
@@ -35,6 +37,7 @@ HEADERS += \
 
 
 FORMS += \
+    dialog.ui \
     mainwindow.ui
 
 
@@ -42,3 +45,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    .gitignore

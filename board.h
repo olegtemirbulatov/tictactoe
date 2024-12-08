@@ -22,21 +22,11 @@ public:
 
     virtual ~IBoard() = default;
 
-    virtual std::pair<PositionType, PositionType> dimension() const
-    {
-        // возвр размер поля
-        return std::pair<PositionType, PositionType> {};
-    }
+    virtual std::pair<PositionType, PositionType> dimension() const = 0;
 
-    virtual Mark getMark(const PositionType &pos) const
-    {
-        return MARK_UNKNOWN; 
-    }
+    virtual Mark getMark(const PositionType &pos) const = 0;
 
-    virtual bool setMark(const PositionType &pos, const Mark &mark)
-    { 
-        return false; 
-    }
+    virtual bool setMark(const PositionType &pos, const Mark &mark) = 0;
 
     virtual std::size_t getDimension() = 0;
 };

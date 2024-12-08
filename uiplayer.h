@@ -1,7 +1,8 @@
 #pragma once
 
-#include "player.h"
 #include <QString>
+
+#include "player.h"
 
 class UIPlayer : public IPlayer
 {
@@ -11,7 +12,7 @@ public:
     ~UIPlayer() = default;
 
     virtual QString name() const override;
-    virtual std::optional<IBoard::PositionType> getMove() const {}
+    virtual std::optional<IBoard::PositionType> getMove() const { return IBoard::PositionType{0, 0}; }
 
 private:
     QString m_name;

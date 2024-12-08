@@ -12,7 +12,7 @@ class SimpleBoard : public IBoard
 {
 public:
     SimpleBoard() = default;
-    SimpleBoard(std::size_t N)
+    SimpleBoard(IBoard::PositionType::Dimension N)
     {
         m_size = {N, N};
         m_marks = std::vector<std::vector<Mark>>(N, std::vector<Mark>(N, IBoard::MARK_EMPTY));

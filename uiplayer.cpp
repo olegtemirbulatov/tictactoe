@@ -1,5 +1,6 @@
-#include "uiplayer.h"
 #include <QString>
+
+#include "uiplayer.h"
 
 QString UIPlayer::name() const
 {

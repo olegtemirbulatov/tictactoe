@@ -12,6 +12,6 @@ public:
     IPlayer() = default;
     virtual ~IPlayer() = default;
     virtual QString name() const = 0;
-    virtual std::optional<IBoard::PositionType> getMove( /*uint64_t timeout = -1 */ ) const = 0;
+    virtual std::optional<IBoard::PositionType> getMove() const = 0;
 };
 

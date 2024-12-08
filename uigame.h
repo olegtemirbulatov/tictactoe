@@ -17,11 +17,11 @@ public:
     ~UIGame() = default;
 
     virtual bool setup(IBoard* board) override;
-    virtual bool waitForPlayers(QVector<QString> *gamersList) override;
-    virtual int exec(/* add parameters */) override { return 0; }
+    virtual bool waitForPlayers(const QVector<QString> *gamersList) override;
+    virtual int exec() override { return 0; }
     virtual bool ifPlayerWin() override;
-    virtual QString getPlayer(int playerNum) override;
-    virtual std::size_t getDimension() override;
+    virtual QString getPlayer(const int playerNum) const override;
+    virtual std::size_t getDimension() const override;
     virtual bool setMark(const IBoard::PositionType &pos, const IBoard::Mark &mark) override;
 
 private:
