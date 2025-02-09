@@ -43,7 +43,7 @@ GameWindow::GameWindow(IGame *_game, QWidget *parent) :
             QObject::connect(button,
                              &QPushButton::clicked,
                              this,
-                             GameWindow::push_fieldButton);
+                             &GameWindow::push_fieldButton);
         }
     }
     QWidget *widget = new QWidget();
@@ -58,11 +58,11 @@ GameWindow::GameWindow(IGame *_game, QWidget *parent) :
     QObject::connect(exitButton,
                      &QPushButton::clicked,
                      this,
-                     GameWindow::push_exitButton);
+                     &GameWindow::push_exitButton);
     QObject::connect(turnButton,
                      &QPushButton::clicked,
                      this,
-                     GameWindow::push_turnButton);
+                     &GameWindow::push_turnButton);
 
     hlayout3 = new QHBoxLayout();
     hlayout3->addWidget(exitButton);
@@ -78,11 +78,8 @@ GameWindow::GameWindow(IGame *_game, QWidget *parent) :
 
 GameWindow::~GameWindow()
 {
-    if (game)
-    {
-        delete game;
-        game = nullptr;
-    }
+    delete game;
+    game = nullptr;
 }
 
 void GameWindow::clearActiveButtons()

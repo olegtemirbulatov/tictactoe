@@ -85,8 +85,8 @@ void MainWindow::on_pushButton_2_clicked()
     {
         if (gamers)
             gamers->clear();
-        gamers->push_back(std::move(ui->firstPlayerName->text()));
-        gamers->push_back(std::move(ui->secondPlayerName->text()));
+        gamers->push_back(ui->firstPlayerName->text());
+        gamers->push_back(ui->secondPlayerName->text());
 
         IGame *game = gameManager->createGame("UI_game", ui->dimention->text().toInt());
         if (game->waitForPlayers(gamers))

@@ -1,0 +1,8 @@
+/build
+/.vscode
+/out
+
+*.exe
+*.bin
+*.json
+*.user
